@@ -1,15 +1,16 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#articles", label: "Writing" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#profiles", label: "Profiles" },
-  { href: "#contact", label: "Contact" },
-];
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/projects", label: "Projects" },
+  { to: "/skills", label: "Skills" },
+  { to: "/certifications", label: "Certifications" },
+  { to: "/profiles", label: "Profiles" },
+  { to: "/contact", label: "Contact" },
+] as const;
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,19 +30,21 @@ export function Nav() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all ${scrolled ? "glass" : "bg-transparent"}`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#home" className="font-display text-xl font-bold tracking-tight">
-          <span className="text-gradient">{"<JFS />"}</span>
-        </a>
+        <Link to="/" className="font-display text-xl font-bold tracking-tight">
+          <span className="text-gradient">{"<Madhan P />"}</span>
+        </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
+            <li key={l.to}>
+              <Link
+                to={l.to}
+                activeOptions={{ exact: l.to === "/" }}
+                activeProps={{ className: "text-foreground after:w-full" }}
                 className="relative text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-gradient-hero after:transition-all hover:after:w-full"
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -55,14 +58,21 @@ export function Nav() {
         </a>
 
         <button
-          className="md:hidden text-foreground"
+          className="-mr-2 p-2.5 text-foreground md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
+          aria-expanded={open}
         >
           <div className="space-y-1.5">
-            <span className={`block h-0.5 w-6 bg-current transition-transform ${open ? "translate-y-2 rotate-45" : ""}`} />
-            <span className={`block h-0.5 w-6 bg-current transition-opacity ${open ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 w-6 bg-current transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+            <span
+              className={`block h-0.5 w-6 bg-current transition-transform ${open ? "translate-y-2 rotate-45" : ""}`}
+            />
+            <span
+              className={`block h-0.5 w-6 bg-current transition-opacity ${open ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`block h-0.5 w-6 bg-current transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`}
+            />
           </div>
         </button>
       </nav>
@@ -74,16 +84,28 @@ export function Nav() {
           className="glass mx-6 mb-4 rounded-2xl p-4 md:hidden"
         >
           {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
+            <li key={l.to}>
+              <Link
+                to={l.to}
+                activeOptions={{ exact: l.to === "/" }}
+                activeProps={{ className: "text-foreground" }}
                 onClick={() => setOpen(false)}
-                className="block py-2 text-sm text-muted-foreground hover:text-foreground"
+                className="block rounded-lg px-2 py-3 text-sm text-muted-foreground hover:bg-background/40 hover:text-foreground"
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
+          <li className="mt-2 border-t border-border pt-2">
+            <a
+              href="/resume.pdf"
+              download
+              onClick={() => setOpen(false)}
+              className="block rounded-lg px-2 py-3 text-sm font-medium text-cyan hover:bg-background/40"
+            >
+              Download Resume
+            </a>
+          </li>
         </motion.ul>
       )}
     </motion.header>

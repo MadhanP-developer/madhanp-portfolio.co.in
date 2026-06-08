@@ -1,38 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
+import { Highlights } from "@/components/Highlights";
+import { FeaturedWork } from "@/components/FeaturedWork";
 import { CTA } from "@/components/CTA";
-import { Articles } from "@/components/Articles";
-import { Projects } from "@/components/Projects";
-import { Skills } from "@/components/Skills";
-import { Profiles } from "@/components/Profiles";
-import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
-import { ParticleField } from "@/components/ParticleField";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Java Full Stack Developer — Portfolio" },
+      { title: "Madhan P — Java Full Stack Developer" },
       {
         name: "description",
         content:
-          "Portfolio of a Java Full Stack Developer crafting scalable web applications with Spring Boot, React, and modern cloud tooling.",
+          "Portfolio of Madhan P, a Java Full Stack Developer building and deploying scalable web platforms with Java, Spring Boot, REST APIs, and MySQL.",
       },
-      { property: "og:title", content: "Java Full Stack Developer — Portfolio" },
+      { property: "og:title", content: "Madhan P — Java Full Stack Developer" },
       {
         property: "og:description",
-        content: "Selected projects, writing, profiles and contact for a Java Full Stack Developer.",
+        content:
+          "Selected projects, experience, skills and contact for Madhan P, a Java Full Stack Developer.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Java Full Stack Developer — Portfolio" },
+      { name: "twitter:title", content: "Madhan P — Java Full Stack Developer" },
       {
         name: "twitter:description",
-        content: "Spring Boot · React · Cloud — selected projects, writing and profiles.",
+        content:
+          "Java · Spring Boot · REST APIs · MySQL — selected projects, experience and skills.",
       },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -42,24 +37,32 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Person",
-          name: "Java Full Stack Developer",
+          name: "Madhan P",
           jobTitle: "Java Full Stack Developer",
+          email: "mailto:madhanp370@gmail.com",
+          telephone: "+91-7810099575",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Chennai",
+            addressRegion: "Tamil Nadu",
+            addressCountry: "India",
+          },
+          worksFor: { "@type": "Organization", name: "F&P Homes Private Limited" },
           description:
-            "Crafting scalable web applications with Spring Boot, React, and modern cloud tooling.",
+            "Java Full Stack Developer building and deploying scalable web platforms with Java, Spring Boot, REST APIs, and MySQL.",
           knowsAbout: [
             "Java",
             "Spring Boot",
-            "React",
-            "TypeScript",
-            "PostgreSQL",
-            "AWS",
-            "Microservices",
+            "Spring Security",
+            "REST APIs",
+            "Hibernate",
+            "JavaScript",
+            "MySQL",
           ],
           sameAs: [
-            "https://github.com",
-            "https://linkedin.com",
-            "https://leetcode.com",
-            "https://dev.to",
+            "https://github.com/MadhanP-developer",
+            "https://www.linkedin.com/in/pmadhan-kumar",
+            "https://madhanp-portfolio.co.in",
           ],
         }),
       },
@@ -69,28 +72,11 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
-      >
-        Skip to content
-      </a>
-      <ParticleField />
-      <div className="relative z-10">
-        <Nav />
-        <main id="main">
-          <Hero />
-          <About />
-          <CTA />
-          <Articles />
-          <Projects />
-          <Skills />
-          <Profiles />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </div>
+    <>
+      <Hero />
+      <Highlights />
+      <FeaturedWork />
+      <CTA />
+    </>
   );
 }

@@ -1,86 +1,157 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { FiExternalLink, FiGithub } from "react-icons/fi";
-import type { MouseEvent } from "react";
+import { motion } from "framer-motion";
+import { Link } from "@tanstack/react-router";
+import { FiEye, FiGithub, FiExternalLink, FiMonitor, FiArrowRight } from "react-icons/fi";
 
-const projects = [
+type Status = "Live" | "Development";
+
+const projects: {
+  title: string;
+  category: string;
+  year: string;
+  status: Status;
+  desc: string;
+  stack: string[];
+  live: string;
+  code: string;
+  gradient: string;
+}[] = [
   {
-    title: "Lumen Commerce",
-    desc: "Headless e-commerce platform with sub-100ms checkout, multi-tenant catalogs and event-driven inventory sync.",
-    stack: ["Spring Boot", "React", "PostgreSQL", "Kafka"],
+    title: "FirstBrick Main Website",
+    category: "Real Estate · Full-Stack",
+    year: "2026",
+    status: "Live",
+    desc: "The flagship real estate platform serving 500+ monthly visitors. I own the full stack — HTML5/CSS3/JavaScript frontend, Spring Boot REST APIs, MySQL schema design, and CI/CD deployment via Netlify.",
+    stack: ["Java", "Spring Boot", "REST APIs", "MySQL", "JavaScript", "Netlify"],
+    live: "https://firstbrick.in",
+    code: "https://github.com/MadhanP-developer",
     gradient: "from-cyan/30 to-purple/30",
   },
   {
-    title: "Atlas Analytics",
-    desc: "Real-time analytics dashboard ingesting 50M events/day with custom SQL builder and shareable cohorts.",
-    stack: ["Java 21", "React", "ClickHouse", "Redis"],
+    title: "FirstBrick Landing Pages",
+    category: "Web Development",
+    year: "2026",
+    status: "Live",
+    desc: "10+ conversion-optimised campaign landing pages (subfolder architecture) for projects like Godrej Azure and Shriram Park 63 — contributing to a 3× increase in monthly lead inquiries.",
+    stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5", "Netlify"],
+    live: "https://firstbrickhomes.in",
+    code: "https://github.com/MadhanP-developer",
     gradient: "from-purple/30 to-pink/30",
   },
   {
-    title: "Halcyon Banking API",
-    desc: "PCI-DSS compliant payments core with idempotent transfers, ledger reconciliation and OAuth2.",
-    stack: ["Spring Security", "JWT", "MySQL", "Docker"],
+    title: "FirstBrick CRM",
+    category: "CRM · Full-Stack",
+    year: "2026",
+    status: "Live",
+    desc: "A full-featured CRM managing 200+ leads across 3 agent roles — centralising pipeline tracking, agent assignment, and automated lead capture from landing pages. Secured with Spring Security and JWT authentication.",
+    stack: ["Java", "Spring Boot", "Spring Security", "JWT", "MySQL"],
+    live: "https://crm.firstbrick.in",
+    code: "https://github.com/MadhanP-developer",
     gradient: "from-pink/30 to-cyan/30",
   },
   {
-    title: "Verse CMS",
-    desc: "Block-based headless CMS with live collaboration, image transforms, and a typed REST + GraphQL API.",
-    stack: ["Spring Boot", "React", "GraphQL", "S3"],
+    title: "My Portfolio Website",
+    category: "Web Development",
+    year: "2026",
+    status: "Live",
+    desc: "This portfolio — an animated, multi-page site featuring a 3D hero scene, an interactive particle field, and smooth page transitions. Built with React, TanStack Router, and Tailwind CSS.",
+    stack: ["React", "TanStack Router", "TypeScript", "Tailwind CSS", "Framer Motion", "Three.js"],
+    live: "https://madhanp-portfolio.co.in/",
+    code: "https://github.com/MadhanP-developer",
     gradient: "from-cyan/30 to-pink/30",
   },
 ];
 
-function TiltCard({ p, i }: { p: typeof projects[number]; i: number }) {
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const rx = useSpring(useTransform(my, [-0.5, 0.5], [10, -10]), { stiffness: 200, damping: 20 });
-  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-10, 10]), { stiffness: 200, damping: 20 });
+const statusStyle: Record<Status, string> = {
+  Live: "border-green-500/40 bg-green-500/10 text-green-400",
+  Development: "border-amber-500/40 bg-amber-500/10 text-amber-400",
+};
 
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    mx.set((e.clientX - r.left) / r.width - 0.5);
-    my.set((e.clientY - r.top) / r.height - 0.5);
-  };
-  const onLeave = () => { mx.set(0); my.set(0); };
-
+function ProjectCard({ p, i }: { p: (typeof projects)[number]; i: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: i * 0.1, duration: 0.6, ease: [0, 0, 0.2, 1] }}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d", transformPerspective: 1000 }}
-      className="group relative cursor-pointer"
+      transition={{ delay: i * 0.08, duration: 0.5 }}
+      className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card/40 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cyan/50"
     >
-      <div className="absolute -inset-px rounded-3xl bg-gradient-hero opacity-30 blur-sm transition-opacity group-hover:opacity-80" />
-      <div className={`relative h-full overflow-hidden rounded-3xl border border-border bg-card/60 p-7 backdrop-blur-xl`}>
-        <div className={`pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-gradient-to-br ${p.gradient} blur-3xl transition-transform duration-700 group-hover:scale-125`} />
+      {/* Preview area */}
+      <a
+        href={p.live}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open ${p.title} live site`}
+        className={`relative grid h-52 place-items-center overflow-hidden bg-gradient-to-br ${p.gradient}`}
+      >
+        <div className="absolute inset-0 grid-bg opacity-30" aria-hidden="true" />
+        <FiMonitor
+          className="h-16 w-16 text-foreground/40 transition-transform duration-500 group-hover:scale-110"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/80 to-transparent"
+          aria-hidden="true"
+        />
+      </a>
 
-        <div style={{ transform: "translateZ(40px)" }} className="relative">
-          <div className="mb-6 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
-            Project {String(i + 1).padStart(2, "0")}
-          </div>
-          <h3 className="text-2xl font-bold md:text-3xl">{p.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+      {/* Body */}
+      <div className="flex flex-1 flex-col p-7">
+        <h3 className="text-2xl font-bold">
+          <span className="text-gradient">{p.title}</span>
+        </h3>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
+          <span>{p.category}</span>
+          <span>•</span>
+          <span>{p.year}</span>
+          <span
+            className={`rounded-full border px-2 py-0.5 font-semibold ${statusStyle[p.status]}`}
+          >
+            {p.status}
+          </span>
+        </div>
+
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+
+        <div className="mt-6">
+          <p className="mb-2 text-xs font-semibold text-muted-foreground">Technologies Used:</p>
+          <div className="flex flex-wrap gap-2">
             {p.stack.map((s) => (
-              <span key={s} className="rounded-full border border-border bg-background/40 px-3 py-1 text-xs font-mono text-muted-foreground transition-colors hover:border-cyan hover:text-cyan">
+              <span
+                key={s}
+                className="rounded-full border border-border bg-background/40 px-3 py-1 text-xs font-mono text-muted-foreground transition-colors hover:border-cyan hover:text-cyan"
+              >
                 {s}
               </span>
             ))}
           </div>
+        </div>
 
-          <div className="mt-7 flex gap-4">
-            <a href="#" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan hover:underline">
-              <FiExternalLink /> Live
-            </a>
-            <a href="#" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
-              <FiGithub /> Code
-            </a>
-          </div>
+        <div className="mt-7 flex items-center gap-6 border-t border-border pt-5 text-sm font-semibold">
+          <a
+            href={p.live}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <FiEye /> Preview
+          </a>
+          <a
+            href={p.code}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <FiGithub /> Code
+          </a>
+          <a
+            href={p.live}
+            target="_blank"
+            rel="noreferrer"
+            className="ml-auto inline-flex items-center gap-1.5 text-cyan hover:underline"
+          >
+            <FiExternalLink /> Live
+          </a>
         </div>
       </div>
     </motion.div>
@@ -91,22 +162,56 @@ export function Projects() {
   return (
     <section id="projects" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 flex flex-wrap items-end justify-between gap-6"
+          className="text-center"
         >
-          <div className="max-w-2xl">
-            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-cyan">Selected Work</p>
-            <h2 className="text-4xl font-bold md:text-5xl">Projects that <span className="text-gradient">ship</span>.</h2>
-          </div>
-          <p className="max-w-md text-muted-foreground">A handful of systems I've built end-to-end — from the schema up to the pixels.</p>
+          <h1 className="font-display text-6xl font-bold tracking-tight md:text-7xl">
+            <span className="text-gradient">Projects</span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
+            Showcasing innovative solutions and cutting-edge technologies
+          </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {projects.map((p, i) => <TiltCard key={p.title} p={p} i={i} />)}
+        {/* Grid */}
+        <div className="mt-16 grid gap-6 md:grid-cols-2">
+          {projects.map((p, i) => (
+            <ProjectCard key={p.title} p={p} i={i} />
+          ))}
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 text-center"
+        >
+          <p className="text-muted-foreground">
+            Want to see more projects or collaborate on something amazing?
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            <Link
+              to="/contact"
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-hero px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
+            >
+              Let's Work Together{" "}
+              <FiArrowRight className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <a
+              href="https://github.com/MadhanP-developer"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-6 py-3 text-sm font-semibold backdrop-blur transition-all hover:border-cyan hover:glow-cyan"
+            >
+              <FiGithub /> View All on GitHub
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

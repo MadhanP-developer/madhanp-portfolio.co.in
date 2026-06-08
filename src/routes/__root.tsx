@@ -9,6 +9,9 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
+import { ParticleField } from "@/components/ParticleField";
 
 function NotFoundComponent() {
   return (
@@ -73,11 +76,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#0b0f1f" },
-      { title: "Java Full Stack Developer — Portfolio" },
-      { property: "og:site_name", content: "JFS Portfolio" },
+      { title: "Madhan P — Java Full Stack Developer" },
+      { property: "og:site_name", content: "Madhan P — Portfolio" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/favicon.svg" },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -110,7 +117,22 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+        >
+          Skip to content
+        </a>
+        <ParticleField />
+        <div className="relative z-10">
+          <Nav />
+          <main id="main">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </div>
     </QueryClientProvider>
   );
 }

@@ -1,10 +1,10 @@
-import { FiGithub, FiLinkedin, FiTwitter, FiMail } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiGlobe, FiMail } from "react-icons/fi";
 
 const socials = [
-  { Icon: FiGithub, href: "https://github.com", label: "GitHub" },
-  { Icon: FiLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { Icon: FiTwitter, href: "https://twitter.com", label: "Twitter" },
-  { Icon: FiMail, href: "mailto:hello@example.com", label: "Email" },
+  { Icon: FiGithub, href: "https://github.com/MadhanP-developer", label: "GitHub" },
+  { Icon: FiLinkedin, href: "https://www.linkedin.com/in/pmadhan-kumar", label: "LinkedIn" },
+  { Icon: FiGlobe, href: "https://madhanp-portfolio.co.in", label: "Portfolio" },
+  { Icon: FiMail, href: "mailto:madhanp370@gmail.com", label: "Email" },
 ];
 
 export function Footer() {
@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="relative border-t border-border py-12">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
         <p className="font-mono text-xs text-muted-foreground">
-          © {new Date().getFullYear()} — Java Full Stack Developer. Built with intent.
+          © {new Date().getFullYear()} Madhan P — Java Full Stack Developer. Built with intent.
         </p>
         <ul className="flex gap-3">
           {socials.map(({ Icon, href, label }) => (

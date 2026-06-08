@@ -4,8 +4,14 @@ import { useRef } from "react";
 import * as THREE from "three";
 
 function Shape({
-  position, color, geometry,
-}: { position: [number, number, number]; color: string; geometry: "ico" | "torus" | "octa" | "knot" }) {
+  position,
+  color,
+  geometry,
+}: {
+  position: [number, number, number];
+  color: string;
+  geometry: "ico" | "torus" | "octa" | "knot";
+}) {
   const ref = useRef<THREE.Mesh>(null);
   useFrame((_, dt) => {
     if (!ref.current) return;
@@ -15,22 +21,46 @@ function Shape({
 
   const Geo = (
     <>
-      {geometry === "ico" && <Icosahedron ref={ref} args={[1, 0]} position={position}>
-        <meshStandardMaterial color={color} wireframe emissive={color} emissiveIntensity={0.6} />
-      </Icosahedron>}
-      {geometry === "torus" && <Torus ref={ref} args={[0.8, 0.25, 16, 64]} position={position}>
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} roughness={0.2} metalness={0.7} />
-      </Torus>}
-      {geometry === "octa" && <Octahedron ref={ref} args={[1, 0]} position={position}>
-        <meshStandardMaterial color={color} wireframe emissive={color} emissiveIntensity={0.6} />
-      </Octahedron>}
-      {geometry === "knot" && <TorusKnot ref={ref} args={[0.6, 0.2, 100, 16]} position={position}>
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} roughness={0.2} metalness={0.8} />
-      </TorusKnot>}
+      {geometry === "ico" && (
+        <Icosahedron ref={ref} args={[1, 0]} position={position}>
+          <meshStandardMaterial color={color} wireframe emissive={color} emissiveIntensity={0.6} />
+        </Icosahedron>
+      )}
+      {geometry === "torus" && (
+        <Torus ref={ref} args={[0.8, 0.25, 16, 64]} position={position}>
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={0.4}
+            roughness={0.2}
+            metalness={0.7}
+          />
+        </Torus>
+      )}
+      {geometry === "octa" && (
+        <Octahedron ref={ref} args={[1, 0]} position={position}>
+          <meshStandardMaterial color={color} wireframe emissive={color} emissiveIntensity={0.6} />
+        </Octahedron>
+      )}
+      {geometry === "knot" && (
+        <TorusKnot ref={ref} args={[0.6, 0.2, 100, 16]} position={position}>
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={0.4}
+            roughness={0.2}
+            metalness={0.8}
+          />
+        </TorusKnot>
+      )}
     </>
   );
 
-  return <Float speed={2} rotationIntensity={0.5} floatIntensity={1.5}>{Geo}</Float>;
+  return (
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={1.5}>
+      {Geo}
+    </Float>
+  );
 }
 
 export function HeroScene() {

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="mp" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#66d9ff"/>
+      <stop offset="0.5" stop-color="#b282f0"/>
+      <stop offset="1" stop-color="#ff6ea5"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#0b0f1f" stroke="url(#mp)" stroke-width="2.5"/>
+  <text x="32" y="43" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="30" font-weight="700" letter-spacing="-1" text-anchor="middle" fill="url(#mp)">MP</text>
+</svg>
