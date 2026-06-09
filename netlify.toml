@@ -1,0 +1,11 @@
+[build]
+  command = "npx vite build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
+  # Ensure the built SSR server bundle is shipped with the function.
+  included_files = ["dist/server/**"]
