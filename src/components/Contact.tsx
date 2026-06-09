@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { submitLead } from "@/lib/leads";
 import {
   FiSend,
   FiCheck,
@@ -35,25 +36,36 @@ const socials = [
 export function Contact() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
     const form = e.currentTarget;
     const data = new FormData(form);
-    const name = String(data.get("name") ?? "");
-    const email = String(data.get("email") ?? "");
-    const phone = String(data.get("phone") ?? "");
-    const subject = String(data.get("subject") ?? "");
-    const message = String(data.get("message") ?? "");
-    const body = `Name: ${name}\nEmail: ${email}\nMobile: ${phone}\nSubject: ${subject}\n\n${message}`;
-    window.location.href = `mailto:madhanp370@gmail.com?subject=${encodeURIComponent(
-      subject ? `${subject} — from ${name}` : `Portfolio message from ${name}`,
-    )}&body=${encodeURIComponent(body)}`;
-    setLoading(false);
-    setSent(true);
-    setTimeout(() => setSent(false), 3500);
-    form.reset();
+
+    try {
+      await submitLead({
+        data: {
+          name: String(data.get("name") ?? ""),
+          email: String(data.get("email") ?? ""),
+          phone: String(data.get("phone") ?? ""),
+          subject: String(data.get("subject") ?? ""),
+          message: String(data.get("message") ?? ""),
+          consent: data.get("consent") === "on",
+        },
+      });
+      setSent(true);
+      form.reset();
+      setTimeout(() => setSent(false), 3500);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again or email me directly.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -173,6 +185,12 @@ export function Contact() {
                   </>
                 )}
               </button>
+
+              {error && (
+                <p role="alert" className="text-sm font-medium text-red-400">
+                  {error}
+                </p>
+              )}
             </div>
           </motion.form>
 
