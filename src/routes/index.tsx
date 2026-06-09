@@ -21,7 +21,10 @@ export const Route = createFileRoute("/")({
           "Selected projects, experience, skills and contact for Madhan P, a Java Full Stack Developer.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://madhanp-portfolio.co.in/" },
+      { property: "og:image", content: "https://madhanp-portfolio.co.in/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Madhan P — Java Full Stack Developer" },
       {
@@ -29,6 +32,7 @@ export const Route = createFileRoute("/")({
         content:
           "Java · Spring Boot · REST APIs · MySQL — selected projects, experience and skills.",
       },
+      { name: "twitter:image", content: "https://madhanp-portfolio.co.in/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "/" }],
     scripts: [
