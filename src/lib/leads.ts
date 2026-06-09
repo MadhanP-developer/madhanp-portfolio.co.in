@@ -17,9 +17,21 @@ export type LeadInput = {
 // ephemeral and not shared, so this throttles bursts hitting a warm
 // instance rather than enforcing a hard global limit. Good enough to blunt
 // naive flooding without an external store.
-const RATE_LIMIT = 5; // max submissions
+const RATE_LIMIT = 10; // max submissions
 const RATE_WINDOW_MS = 10 * 60 * 1000; // per 10 minutes, per IP
 const hits = new Map<string, number[]>();
+
+// Resolve the client IP safely. Returns null if it can't be determined or if
+// the call fails for any reason — callers must treat null as "don't throttle"
+// so we never block (or silently drop) a real lead.
+function resolveIp(): string | null {
+  try {
+    const ip = getRequestIP({ xForwardedFor: true });
+    return ip && ip.trim() !== "" ? ip : null;
+  } catch {
+    return null;
+  }
+}
 
 function checkRateLimit(ip: string): void {
   const now = Date.now();
@@ -122,9 +134,10 @@ export const submitLead = createServerFn({ method: "POST" })
       return { ok: true } as const;
     }
 
-    // Throttle abusive bursts per client IP.
-    const ip = getRequestIP({ xForwardedFor: true }) ?? "unknown";
-    checkRateLimit(ip);
+    // Throttle abusive bursts per client IP. Only when we have a real IP —
+    // otherwise we'd lump every visitor into one bucket and block everyone.
+    const ip = resolveIp();
+    if (ip) checkRateLimit(ip);
 
     // 1) Persist to the database first (the source of truth).
     await saveToSupabase(data);
