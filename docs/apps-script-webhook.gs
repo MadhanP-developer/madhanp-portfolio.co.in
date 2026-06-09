@@ -14,6 +14,36 @@
  */
 
 var NOTIFY_EMAIL = "madhanp370@gmail.com";
+var SENDER_NAME = "Madhan P";
+var AUTO_REPLY = true; // set false to disable the confirmation email to the lead
+
+function isValidEmail(email) {
+  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(email || ""));
+}
+
+function sendAutoReply(data) {
+  if (!AUTO_REPLY || !isValidEmail(data.email)) return;
+  var firstName = String(data.name || "there").split(" ")[0];
+  var body =
+    "Hi " + firstName + ",\n\n" +
+    "Thanks for reaching out through my portfolio — I've received your message " +
+    "and I'll get back to you as soon as I can (usually within a day).\n\n" +
+    "For reference, here's what you sent:\n" +
+    "------------------------------------\n" +
+    (data.subject ? "Subject: " + data.subject + "\n" : "") +
+    (data.message || "") + "\n" +
+    "------------------------------------\n\n" +
+    "Best regards,\n" +
+    SENDER_NAME + "\n" +
+    "https://madhanp-portfolio.co.in";
+  MailApp.sendEmail({
+    to: data.email,
+    subject: "Thanks for getting in touch, " + firstName + "!",
+    body: body,
+    name: SENDER_NAME,
+    replyTo: NOTIFY_EMAIL,
+  });
+}
 
 function doPost(e) {
   try {
@@ -46,6 +76,9 @@ function doPost(e) {
       body: body,
       replyTo: data.email || NOTIFY_EMAIL,
     });
+
+    // Send a confirmation email back to the person who submitted the form.
+    sendAutoReply(data);
 
     return ContentService.createTextOutput(
       JSON.stringify({ ok: true })
