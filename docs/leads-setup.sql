@@ -7,8 +7,12 @@ create table if not exists public.leads (
   phone       text not null,
   subject     text,
   message     text not null,
+  consent     boolean not null default false,
   created_at  timestamptz not null default now()
 );
+
+-- If the table already exists from an earlier setup, add the column:
+alter table public.leads add column if not exists consent boolean not null default false;
 
 -- Row Level Security: keep it ON. We insert from the server using the
 -- service-role key, which bypasses RLS, so no public policies are needed.

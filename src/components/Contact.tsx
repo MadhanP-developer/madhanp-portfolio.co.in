@@ -54,6 +54,7 @@ export function Contact() {
           subject: String(data.get("subject") ?? ""),
           message: String(data.get("message") ?? ""),
           consent: data.get("consent") === "on",
+          company: String(data.get("company") ?? ""),
         },
       });
       setSent(true);
@@ -98,6 +99,19 @@ export function Contact() {
             <h2 className="mb-6 text-2xl font-bold">
               <span className="text-gradient">Send Message</span>
             </h2>
+
+            {/* Honeypot — hidden from humans; bots that fill every field trip it. */}
+            <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
+              <label>
+                Company
+                <input
+                  type="text"
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </label>
+            </div>
 
             <div className="space-y-5">
               <div>
