@@ -13,13 +13,45 @@ function useDesktopScene() {
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setEnabled(mq.matches && !reduce.matches);
-    update();
-    mq.addEventListener("change", update);
-    reduce.addEventListener("change", update);
+    const allowed = () => mq.matches && !reduce.matches;
+
+    let idleId: number | undefined;
+    let cancelled = false;
+
+    // Defer loading the heavy Three.js scene until the browser is idle, so it
+    // runs AFTER the page is interactive and doesn't inflate Total Blocking
+    // Time / main-thread work during the critical load window.
+    const scheduleEnable = () => {
+      if (!allowed()) {
+        setEnabled(false);
+        return;
+      }
+      const ric = (
+        window as unknown as {
+          requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+        }
+      ).requestIdleCallback;
+      if (ric) {
+        idleId = ric(() => !cancelled && setEnabled(true), { timeout: 3000 });
+      } else {
+        idleId = window.setTimeout(() => !cancelled && setEnabled(true), 1500);
+      }
+    };
+
+    // Wait until after the load event before even scheduling.
+    if (document.readyState === "complete") scheduleEnable();
+    else window.addEventListener("load", scheduleEnable, { once: true });
+
+    mq.addEventListener("change", scheduleEnable);
+    reduce.addEventListener("change", scheduleEnable);
     return () => {
-      mq.removeEventListener("change", update);
-      reduce.removeEventListener("change", update);
+      cancelled = true;
+      const cic = (window as unknown as { cancelIdleCallback?: (id: number) => void })
+        .cancelIdleCallback;
+      if (idleId !== undefined) cic ? cic(idleId) : window.clearTimeout(idleId);
+      window.removeEventListener("load", scheduleEnable);
+      mq.removeEventListener("change", scheduleEnable);
+      reduce.removeEventListener("change", scheduleEnable);
     };
   }, []);
   return enabled;

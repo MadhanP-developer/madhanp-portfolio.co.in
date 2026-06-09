@@ -1,6 +1,8 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+/* Self-hosted fonts (replaces render-blocking Google Fonts requests) */
+@import "../public/fonts/fonts.css";
 
 @custom-variant dark (&:is(.dark *));
 
