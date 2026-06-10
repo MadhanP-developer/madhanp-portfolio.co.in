@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Madhan P — Java Full Stack Developer" },
+      { title: "Madhan P — Java Full Stack Developer | Portfolio" },
       {
         name: "description",
         content:
@@ -42,6 +42,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "Person",
           name: "Madhan P",
+          url: "https://madhanp-portfolio.co.in",
           jobTitle: "Java Full Stack Developer",
           email: "mailto:madhanp370@gmail.com",
           telephone: "+91-7810099575",
