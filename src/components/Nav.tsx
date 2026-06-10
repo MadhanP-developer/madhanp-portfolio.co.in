@@ -81,16 +81,19 @@ export function Nav() {
         <motion.ul
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="glass mx-6 mb-4 rounded-2xl p-4 md:hidden"
+          className="mx-6 mb-4 space-y-1 rounded-2xl border border-border bg-background/95 p-4 shadow-2xl backdrop-blur-xl md:hidden"
         >
           {links.map((l) => (
             <li key={l.to}>
               <Link
                 to={l.to}
                 activeOptions={{ exact: l.to === "/" }}
-                activeProps={{ className: "text-foreground" }}
+                activeProps={{
+                  className:
+                    "bg-gradient-to-r from-cyan/20 to-purple/10 text-foreground font-semibold ring-1 ring-cyan/50 glow-cyan before:absolute before:left-0 before:top-1/2 before:h-6 before:w-1 before:-translate-y-1/2 before:rounded-r-full before:bg-gradient-hero after:ml-auto after:h-2 after:w-2 after:rounded-full after:bg-cyan after:shadow-[0_0_8px] after:shadow-cyan after:content-['']",
+                }}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-2 py-3 text-sm text-muted-foreground hover:bg-background/40 hover:text-foreground"
+                className="relative flex items-center justify-between rounded-lg px-3 py-3 text-sm text-muted-foreground transition-all hover:bg-background/60 hover:text-foreground"
               >
                 {l.label}
               </Link>
