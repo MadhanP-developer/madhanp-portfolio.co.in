@@ -62,7 +62,10 @@ const title = "Building Software That Ships";
 export function Hero() {
   const showScene = useDesktopScene();
   return (
-    <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-24">
+    <section
+      id="home"
+      className="relative flex min-h-screen items-start overflow-hidden pt-28 md:items-center md:pt-24"
+    >
       {/* gradient blobs */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-cyan opacity-30 blur-[100px] animate-blob" />
