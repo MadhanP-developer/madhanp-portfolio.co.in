@@ -55,7 +55,7 @@ const projects: {
     status: "Live",
     desc: "A luxury interior-design studio website for a South India brand — featuring before/after project galleries, tiered pricing packages, a four-step design process, client testimonials, and consultation/quote contact forms across city-specific landing pages.",
     stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5", "Netlify"],
-    live: "https://signature-living-interiors.netlify.app/",
+    live: "https://signature-living-interiors.madhanp-portfolio.co.in/",
     code: "https://github.com/MadhanP-developer",
     gradient: "from-purple/30 to-cyan/30",
   },
