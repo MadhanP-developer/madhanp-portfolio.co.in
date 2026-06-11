@@ -49,6 +49,17 @@ const projects: {
     gradient: "from-pink/30 to-cyan/30",
   },
   {
+    title: "Signature Living Interiors",
+    category: "Interior Design · Web Development",
+    year: "2026",
+    status: "Live",
+    desc: "A luxury interior-design studio website for a South India brand — featuring before/after project galleries, tiered pricing packages, a four-step design process, client testimonials, and consultation/quote contact forms across city-specific landing pages.",
+    stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5", "Netlify"],
+    live: "https://signature-living-interiors.netlify.app/",
+    code: "https://github.com/MadhanP-developer",
+    gradient: "from-purple/30 to-cyan/30",
+  },
+  {
     title: "My Portfolio Website",
     category: "Web Development",
     year: "2026",
